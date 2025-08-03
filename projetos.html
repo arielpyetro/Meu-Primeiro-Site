@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projetos</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #1e0033, #0a001a);
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav {
+      display: flex;
+      gap: 40px;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #bbb;
+      max-width: 600px;
+    }
+
+    .botao-calculadora {
+      margin-top: 40px;
+      background: #6a0dad;
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .botao-calculadora:hover {
+      background: #8533ff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="projetos.html">Meus Projetos</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Meus Projetos</h1>
+    <p>Aqui você encontra meus projetos todos feitos por diversão e aprendizagem.</p>
+    <button class="botao-calculadora" onclick="window.location.href='calculadora.html'">
+      Acessar Calculadora em Python
+    </button>
+  </main>
+</body>
+</html>

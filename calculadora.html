@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculadora Avançada - Ariel</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: linear-gradient(135deg, #2e0652, #3a0ca3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #eee;
+    margin: 0; padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  h1 {
+    font-weight: 900;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px #9f86c0;
+    user-select: none;
+  }
+
+  .tabs {
+    display: flex;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 12px #9f86c0aa;
+    margin-bottom: 30px;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 15px 0;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #cfccee;
+    transition: background 0.3s ease, color 0.3s ease;
+    user-select: none;
+  }
+
+  .tab.active {
+    background: #7b52ff;
+    color: white;
+    box-shadow: inset 0 -4px 0 #d0bfff;
+  }
+
+  .content {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 25px 20px 30px 20px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 0 15px #7b52ff88;
+    min-height: 400px;
+    position: relative;
+  }
+
+  #basica input#display {
+    width: 100%;
+    font-size: 2.5rem;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: none;
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.15);
+    color: #eee;
+    text-align: right;
+    box-shadow: inset 0 0 8px #a287ffaa;
+    user-select: text;
+  }
+
+  #basica .grid-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  #basica button {
+    padding: 16px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-radius: 14px;
+    border: none;
+    color: white;
+    background: #7b52ff;
+    box-shadow: 0 5px 0 #5a38c8;
+    transition: background 0.3s, transform 0.1s;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #basica button:active {
+    transform: translateY(3px);
+    box-shadow: none;
+  }
+
+  #basica button.limpar {
+    background: #f44336;
+    box-shadow: 0 5px 0 #a33027;
+    grid-column: span 4;
+  }
+
+  #basica button.equal {
+    background: #4caf50;
+    box-shadow: 0 5px 0 #397d35;
+  }
+
+  #avancada {
+    display: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  #avancada button {
+    padding: 14px 0;
+    border-radius: 12px;
+    border: none;
+    background: #6a44f4;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    box-shadow: 0 4px 0 #4b30b2;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    user-select: none;
+  }
+
+  #avancada button:hover {
+    background: #824dff;
+  }
+
+  #graficoContainer {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 440px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 14px;
+    box-shadow: 0 0 12px #824dffbb;
+    display: none;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: 250px !important;
+  }
+
+  .top-left-nav {
+  position: fixed;
+  top: 20px;
+  left: 30px;
+  z-index: 999;
+  display: flex;
+  gap: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+  .top-left-nav a {
+  color: #bbb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+
+  .top-left-nav a:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+</style>
+</head>
+<body>
+
+<h1>Calculadora Avançada</h1>
+
+<div class="tabs">
+  <div class="tab active" data-tab="basica">Básica</div>
+  <div class="tab" data-tab="avancada">Avançada</div>
+</div>
+
+<nav class="top-left-nav">
+  <a href="index.html">Início</a>
+  <a href="projetos.html">Meus Projetos</a>
+</nav>
+
+
+<div id="basica" class="content">
+  <input type="text" id="display" readonly autocomplete="off" spellcheck="false" />
+  <div class="grid-buttons">
+    <button onclick="digitar('7')">7</button>
+    <button onclick="digitar('8')">8</button>
+    <button onclick="digitar('9')">9</button>
+    <button onclick="digitar('/')">÷</button>
+
+    <button onclick="digitar('4')">4</button>
+    <button onclick="digitar('5')">5</button>
+    <button onclick="digitar('6')">6</button>
+    <button onclick="digitar('*')">×</button>
+
+    <button onclick="digitar('1')">1</button>
+    <button onclick="digitar('2')">2</button>
+    <button onclick="digitar('3')">3</button>
+    <button onclick="digitar('-')">−</button>
+
+    <button onclick="digitar('0')">0</button>
+    <button onclick="digitar('.')">.</button>
+    <button class="equal" onclick="calcular()">=</button>
+    <button onclick="digitar('+')">+</button>
+
+    <button class="limpar" onclick="limpar()">Limpar</button>
+  </div>
+</div>
+
+<div id="avancada" class="content">
+  <button onclick="equacaoPrimeiroGrau()">Equação 1º Grau</button>
+  <button onclick="equacaoSegundoGrau()">Equação 2º Grau</button>
+  <button onclick="sistemaLinear()">Sistema Linear 2x2</button>
+  <button onclick="exponencialLog()">Exponencial / Logaritmo</button>
+  <button onclick="regraDe3()">Regra de 3</button>
+  <button onclick="porcentagem()">Porcentagem</button>
+  <button onclick="graficoFuncao2Grau()">Gráfico função 2º Grau</button>
+
+  <div id="graficoContainer">
+    <canvas id="grafico"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const basica = document.getElementById('basica');
+  const avancada = document.getElementById('avancada');
+  const graficoContainer = document.getElementById('graficoContainer');
+  const ctx = document.getElementById('grafico').getContext('2d');
+  let chart = null;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      if (tab.dataset.tab === 'basica') {
+        basica.style.display = 'block';
+        avancada.style.display = 'none';
+        graficoContainer.style.display = 'none';
+        if(chart) { chart.destroy(); chart = null; }
+      } else {
+        basica.style.display = 'none';
+        avancada.style.display = 'flex';
+      }
+    });
+  });
+
+  const display = document.getElementById('display');
+
+  function digitar(valor) {
+    if(display.value === "Erro") display.value = "";
+    display.value += valor;
+  }
+
+  function calcular() {
+    try {
+      let exp = display.value.replace(/÷/g, '/').replace(/×/g, '*').replace(/−/g, '-');
+      let res = eval(exp);
+      display.value = res;
+    } catch {
+      display.value = 'Erro';
+    }
+  }
+
+  function limpar() {
+    display.value = '';
+  }
+
+  function equacaoPrimeiroGrau() {
+    let a = prompt("Valor de a:");
+    if (a === null) return;
+    let b = prompt("Valor de b:");
+    if (b === null) return;
+    let c = prompt("Valor de c:");
+    if (c === null) return;
+
+    a = parseFloat(a);
+    b = parseFloat(b);
+    c = parseFloat(c);
+
+    if (a === 0) {
+      alert("Não é equação do 1º grau (a=0)");
+      return;
+    }
+    let x = (c - b) / a;
+    alert(`Solução: x = ${x}`);
+  }
+
+  function equacaoSegundoGrau() {
+    let a = prompt("Valor de a:");
+    if (a === null) return;
+    let b = prompt("Valor de b:");
+    if (b === null) return;
+    let c = prompt("Valor de c:");
+    if (c === null) return;
+
+    a = parseFloat(a);
+    b = parseFloat(b);
+    c = parseFloat(c);
+
+    let delta = b*b - 4*a*c;
+    if (delta < 0) {
+      alert("Sem raízes reais");
+    } else if (delta === 0) {
+      let x = -b / (2*a);
+      alert(`Raiz única: x = ${x}`);
+    } else {
+      let x1 = (-b + Math.sqrt(delta)) / (2*a);
+      let x2 = (-b - Math.sqrt(delta)) / (2*a);
+      alert(`x1 = ${x1}\nx2 = ${x2}`);
+    }
+  }
+
+  function sistemaLinear() {
+    let a1 = prompt("Valor a1:");
+    if (a1 === null) return;
+    let b1 = prompt("Valor b1:");
+    if (b1 === null) return;
+    let c1 = prompt("Valor c1:");
+    if (c1 === null) return;
+    let a2 = prompt("Valor a2:");
+    if (a2 === null) return;
+    let b2 = prompt("Valor b2:");
+    if (b2 === null) return;
+    let c2 = prompt("Valor c2:");
+    if (c2 === null) return;
+
+    a1 = parseFloat(a1);
+    b1 = parseFloat(b1);
+    c1 = parseFloat(c1);
+    a2 = parseFloat(a2);
+    b2 = parseFloat(b2);
+    c2 = parseFloat(c2);
+
+    let D = a1*b2 - a2*b1;
+    let Dx = c1*b2 - c2*b1;
+    let Dy = a1*c2 - a2*c1;
+
+    if(D === 0){
+      alert("Sistema sem solução única");
+      return;
+    }
+
+    let x = Dx / D;
+    let y = Dy / D;
+    alert(`x = ${x}\ny = ${y}`);
+  }
+
+  function exponencialLog() {
+    let escolha = prompt("Digite 'exp' para exponencial ou 'log' para logaritmo:");
+    if (escolha === null) return;
+
+    if(escolha.toLowerCase() === 'exp'){
+      let base = prompt("Base:");
+      if (base === null) return;
+      let expoente = prompt("Expoente:");
+      if (expoente === null) return;
+      let resultado = Math.pow(parseFloat(base), parseFloat(expoente));
+      alert(`${base}^${expoente} = ${resultado}`);
+    }
+    else if(escolha.toLowerCase() === 'log'){
+      let valor = prompt("Valor:");
+      if(valor === null) return;
+      let base = prompt("Base (deixe vazio para ln):");
+      if(base === null) return;
+
+      let resultado, baseTexto;
+      if(base.trim() === ''){
+        resultado = Math.log(parseFloat(valor));
+        baseTexto = 'e';
+      } else {
+        base = parseFloat(base);
+        resultado = Math.log(parseFloat(valor))/Math.log(base);
+        baseTexto = base;
+      }
+      alert(`log base ${baseTexto} de ${valor} = ${resultado}`);
+    } else {
+      alert("Opção inválida");
+    }
+  }
+
+  function regraDe3() {
+    let x1 = prompt("Valor 1:");
+    if(x1 === null) return;
+    let y1 = prompt("Valor 2:");
+    if(y1 === null) return;
+    let x2 = prompt("Valor 3:");
+    if(x2 === null) return;
+
+    let resultado = (parseFloat(y1)*parseFloat(x2))/parseFloat(x1);
+    alert(`Resultado: ${resultado}`);
+  }
+
+  function porcentagem() {
+    let total = prompt("Valor total:");
+    if(total === null) return;
+    let perc = prompt("Porcentagem (%):");
+    if(perc === null) return;
+
+    let resultado = (parseFloat(perc)/100)*parseFloat(total);
+    alert(`${perc}% de ${total} = ${resultado}`);
+  }
+
+  function graficoFuncao2Grau() {
+    let a = prompt("Valor de a:");
+    if(a === null) return;
+    let b = prompt("Valor de b:");
+    if(b === null) return;
+    let c = prompt("Valor de c:");
+    if(c === null) return;
+
+    a = parseFloat(a);
+    b = parseFloat(b);
+    c = parseFloat(c);
+
+    const xValues = [];
+    const yValues = [];
+    for(let x=-10; x<=10; x+=0.1){
+      xValues.push(x.toFixed(1));
+      yValues.push(a*x*x + b*x + c);
+    }
+
+    if(chart) chart.destroy();
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: xValues,
+        datasets: [{
+          label: `${a}x² + ${b}x + ${c}`,
+          data: yValues,
+          borderColor: '#bb86fc',
+          backgroundColor: 'rgba(187,134,252,0.2)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 0,
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: { display: true, title: { display: true, text: 'x' } },
+          y: { display: true, title: { display: true, text: 'f(x)' } }
+        },
+        plugins: {
+          legend: { labels: { color: '#eee' } }
+        }
+      }
+    });
+
+    graficoContainer.style.display = 'block';
+  }
+</script>
+</body>
+</html>
