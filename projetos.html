@@ -1,99 +1,110 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br" >
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projetos</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom, #1e0033, #0a001a);
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    header {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-    }
-
-    nav {
-      display: flex;
-      gap: 40px;
-    }
-
-    nav a {
-      color: #ccc;
-      text-decoration: none;
-      font-size: 1.2rem;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #fff;
-    }
-
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    h1 {
-      font-size: 4rem;
-      margin-bottom: 20px;
-    }
-
-    p {
-      font-size: 1.2rem;
-      color: #bbb;
-      max-width: 600px;
-    }
-
-    .botao-calculadora {
-      margin-top: 40px;
-      background: #6a0dad;
-      border: none;
-      color: white;
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .botao-calculadora:hover {
-      background: #8533ff;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ariel</title>
+  <link rel="stylesheet" href="./src/css/style.css" />
 </head>
 <body>
+  <canvas id="starfield"></canvas>
+
   <header>
     <nav>
-      <a href="index.html">Início</a>
-      <a href="projetos.html">Meus Projetos</a>
+      <ul>
+        <li><a href="#inicio" id="menu-inicio">Início</a></li>
+        <li><a href="projetos.html" id="menu-projetos">Meus Projetos</a></li>
+      </ul>
     </nav>
   </header>
 
   <main>
-    <h1>Meus Projetos</h1>
-    <p>Aqui você encontra meus projetos todos feitos por diversão e aprendizagem.</p>
-    <button class="botao-calculadora" onclick="window.location.href='calculadora.html'">
-      Acessar Calculadora
-    </button>
+    <section id="inicio" class="intro centered">
+      <h1 id="typing"></h1>
+      <p id="subtitle">Não sou programador, faço tudo por hobby.</p>
+
+      <div class="social-icons">
+        <a href="https://instagram.com/arielpyetroo" target="_blank" aria-label="Instagram" class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" >
+            <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm4.75-.75a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5z"/>
+          </svg>
+        </a>
+
+        <a href="https://twitch.tv/arielpyetro" target="_blank" aria-label="Twitch">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 24 24" class="icon">
+                <path d="M4.265 0L.5 3.89v16.325h6.298V24l3.855-3.785h4.155l8.692-8.61V0H4.265zm17.14 11.135l-4.586 4.537H12.4l-3.85 3.79v-3.79H6.184V2.698h15.221v8.437z"/>
+                <path d="M17.4 6.323h-1.992v5.25H17.4v-5.25zm-4.553 0h-1.993v5.25h1.993v-5.25z"/>
+            </svg>
+        </a>
+
+        <a href="https://twitter.com/arielpyetro" target="_blank" aria-label="X (Twitter)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="icon">
+            <path d="M22.772 0H18.47l-5.35 7.24L7.88 0H1l7.924 11.326L1 24h4.408l5.83-7.893L16.86 24h6.91l-8.305-11.768L22.772 0Zm-3.94 21.437h-1.612l-9.1-12.91h1.752l8.96 12.91Zm-3.292-8.137L5.985 2.517h1.674l9.556 10.783h-1.675Z"/>
+          </svg>
+        </a>
+      </div>
+    </section>
   </main>
+
+  <script>
+    const translations = {
+      pt: {
+        typing: "Oi, eu sou Ariel",
+        subtitle: "Não sou programador, faço tudo por hobby.",
+        menuInicio: "Início",
+        menuProjetos: "Meus Projetos"
+      },
+      es: {
+        typing: "Hola, soy Ariel",
+        subtitle: "No soy programador, hago todo por hobby.",
+        menuInicio: "Inicio",
+        menuProjetos: "Mis Proyectos"
+      }
+    };
+
+    let lang = localStorage.getItem('lang');
+    if (!lang) {
+      const userLang = navigator.language || navigator.userLanguage;
+      lang = userLang.startsWith('es') ? 'es' : 'pt';
+      localStorage.setItem('lang', lang);
+    }
+
+  
+    function updateTexts() {
+      document.getElementById('typing').innerText = translations[lang].typing;
+      document.getElementById('subtitle').innerText = translations[lang].subtitle;
+      document.getElementById('menu-inicio').innerText = translations[lang].menuInicio;
+      document.getElementById('menu-projetos').innerText = translations[lang].menuProjetos;
+    }
+
+    updateTexts();
+
+    const select = document.createElement('select');
+    select.id = 'language-selector';
+    select.style.position = 'fixed';
+    select.style.top = '10px';
+    select.style.right = '10px';
+    select.style.padding = '5px';
+
+    const optionPt = document.createElement('option');
+    optionPt.value = 'pt';
+    optionPt.innerText = 'Português';
+    const optionEs = document.createElement('option');
+    optionEs.value = 'es';
+    optionEs.innerText = 'Español';
+
+    select.appendChild(optionPt);
+    select.appendChild(optionEs);
+    select.value = lang;
+    document.body.appendChild(select);
+
+    select.addEventListener('change', (e) => {
+      lang = e.target.value;
+      localStorage.setItem('lang', lang);
+      updateTexts();
+    });
+  </script>
+
+  <script src="./src/javascript/script.js"></script>
 </body>
 </html>
-
