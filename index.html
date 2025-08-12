@@ -1,10 +1,156 @@
 <!DOCTYPE html>
-<html lang="pt-br" >
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ariel</title>
   <link rel="stylesheet" href="./src/css/style.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1a0b3d;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+    #starfield {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: transparent;
+      display: block;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(26, 11, 61, 0.85);
+      padding: 15px 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      z-index: 10;
+    }
+    header nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+    nav a {
+      color: #eefffb;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #535353;
+    }
+    .lang-container {
+      display: flex;
+      align-items: center;
+    }
+    #langSelector {
+      background-color: transparent;
+      color: #00ffc3;
+      border: 2px solid #00ffc3;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+      outline: none;
+    }
+    #langSelector:hover,
+    #langSelector:focus {
+      background-color: #00ffc3;
+      color: #1a0b3d;
+      border-color: #00c39a;
+    }
+    main {
+      padding-top: 80px;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 5;
+    }
+    .intro.centered {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 80px);
+      padding: 20px;
+      text-align: center;
+      user-select: none;
+    }
+    .intro.centered h1 {
+      font-size: 4rem;
+      font-weight: 900;
+      font-family: 'Courier New', Courier, monospace;
+      margin-bottom: 20px;
+      color: #00ffc3;
+      border-right: 2px solid #00ffc3;
+      padding-right: 5px;
+      animation: blinkCursor 0.7s steps(1) infinite;
+    }
+    @keyframes blinkCursor {
+      50% { border-color: transparent; }
+    }
+    .intro.centered p {
+      font-size: 1.3rem;
+      opacity: 0.8;
+    }
+    .social-icons {
+      margin-top: 30px;
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      align-items: center;
+    }
+    .social-icons .icon {
+      color: #bbbbbb;
+      font-size: 2.5rem;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+    .social-icons .icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      fill: currentColor;
+    }
+    .social-icons .icon:hover {
+      color: #6e6e6e;
+      cursor: pointer;
+    }
+    @media (max-width: 480px) {
+      header nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .lang-container {
+        align-self: flex-end;
+      }
+    }
+  </style>
 </head>
 <body>
   <canvas id="starfield"></canvas>
@@ -12,45 +158,104 @@
   <header>
     <nav>
       <ul>
-        <li><a href="#inicio">Início</a></li>
-        <li><a href="projetos.html">Meus Projetos</a></li>
+        <li><a href="#inicio" id="menuInicio">Início</a></li>
+        <li><a href="projetos.html" id="menuProjetos">Meus Projetos</a></li>
       </ul>
+      <div class="lang-container">
+        <select id="langSelector" aria-label="Selecionar idioma">
+          <option value="pt">Português</option>
+          <option value="es">Español</option>
+          <option value="en">English</option>
+        </select>
+      </div>
     </nav>
   </header>
 
   <main>
     <section id="inicio" class="intro centered">
       <h1 id="typing"></h1>
-      <p>Não sou programador, faço tudo por hobby.</p>
-
-      <div class="social-icons">
-        <a href="https://instagram.com/arielpyetroo" target="_blank" aria-label="Instagram" class="icon">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" >
-            <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm4.75-.75a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5z"/>
-          </svg>
-        </a>
-
-        <a href="https://twitch.tv/arielpyetro" target="_blank" aria-label="Twitch">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 24 24" class="icon">
-                <path d="M4.265 0L.5 3.89v16.325h6.298V24l3.855-3.785h4.155l8.692-8.61V0H4.265zm17.14 11.135l-4.586 4.537H12.4l-3.85 3.79v-3.79H6.184V2.698h15.221v8.437z"/>
-                <path d="M17.4 6.323h-1.992v5.25H17.4v-5.25zm-4.553 0h-1.993v5.25h1.993v-5.25z"/>
-            </svg>
-        </a>
-
-
-        <a href="https://twitter.com/arielpyetro" target="_blank" aria-label="X (Twitter)">
-  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="icon">
-    <path d="M22.772 0H18.47l-5.35 7.24L7.88 0H1l7.924 11.326L1 24h4.408l5.83-7.893L16.86 24h6.91l-8.305-11.768L22.772 0Zm-3.94 21.437h-1.612l-9.1-12.91h1.752l8.96 12.91Zm-3.292-8.137L5.985 2.517h1.674l9.556 10.783h-1.675Z"/>
-  </svg>
-</a>
-
-
-        </a>
-      </div>
+      <p id="subtitle"></p>
     </section>
   </main>
 
-  <script src="./src/javascript/script.js"></script>
+  <script>
+    const typingElement = document.getElementById('typing');
+    const subtitleElement = document.getElementById('subtitle');
+    const langSelector = document.getElementById('langSelector');
+
+    const translations = {
+      pt: { typing: "<Olá Mundo/>", subtitle: "Não sou programador, faço tudo por hobby.", menuInicio: "Início", menuProjetos: "Meus Projetos" },
+      es: { typing: "<Hola Mundo/>", subtitle: "No soy programador, hago todo por hobby.", menuInicio: "Inicio", menuProjetos: "Mis Proyectos" },
+      en: { typing: "<Hello World/>", subtitle: "I'm not a programmer, I do everything as a hobby.", menuInicio: "Home", menuProjetos: "My Projects" }
+    };
+
+    let lang = localStorage.getItem('lang') || 'pt';
+    langSelector.value = lang;
+
+    function updateMenuText() {
+      document.getElementById('menuInicio').innerText = translations[lang].menuInicio;
+      document.getElementById('menuProjetos').innerText = translations[lang].menuProjetos;
+    }
+
+    function typeWriter() {
+      const text = translations[lang].typing;
+      let index = 0;
+      typingElement.innerHTML = '';
+      function type() {
+        if (index < text.length) {
+          typingElement.innerHTML += text.charAt(index);
+          index++;
+          setTimeout(type, 120);
+        }
+      }
+      type();
+    }
+
+    function updateTexts() {
+      subtitleElement.innerText = translations[lang].subtitle;
+      updateMenuText();
+      typeWriter();
+    }
+
+    langSelector.addEventListener('change', (e) => {
+      lang = e.target.value;
+      localStorage.setItem('lang', lang);
+      updateTexts();
+    });
+
+    updateTexts();
+
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      stars = Array.from({ length: 150 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5,
+        speed: Math.random() * 0.5 + 0.2
+      }));
+    }
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fill();
+        star.y += star.speed;
+        if (star.y > canvas.height) {
+          star.y = 0;
+          star.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(drawStars);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawStars();
+  </script>
 </body>
 </html>
