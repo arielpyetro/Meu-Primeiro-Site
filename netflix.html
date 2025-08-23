@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix</title>
+    <link rel="stylesheet" href="src/css/styles.css">
+
+
+    <style>
+    .descricao {
+      display: none;
+      margin-top: 8px;
+      padding: 10px;
+      background: #f0f0f0;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .Saiba-mais {
+      color: blue;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="dark-layer">
+            <header class="header">
+                <img src="src/img/logo/netflixlogo.png" alt="">
+            </header>
+            <div class="container">
+                <h2>Entrar</h2>
+                <form action="#">
+                    <div class="input-box">
+                        <input type="text" required>
+                        <label for="#">Email ou número de celular</label>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" required>
+                        <label for="#">Senha</label>
+                    </div>
+                    <button class="btn">Entrar</button>
+                    <p>ou</p>
+                    <button class="btn btn2">Usar um código de acesso</button>
+                    <p class="forgot"><a href="#">Esqueceu a senha?</a></p>
+                    <span><input type="checkbox" name="" id=""> Lembre-se de mim</span>
+                    <p class="accountCreate">Primeira vez aqui? <a href="#"> Assine agora.</a></p>
+                    <p class="condition">Esta página é protegida pelo Google reCAPTCHA para garantir que você não é um robô.. 
+                        <a href="#" class="Saiba-mais">Saiba mais.</a></p>
+                        <div class="descricao">
+                            As informações recolhidas pelo Google reCAPTCHA estão sujeitas à <a href="#">Política de Privacidade</a> e aos <a href="">Termos de Uso</a> do Google e são usadas para oferecer, manter e melhorar o serviço reCAPTCHA e por questões de segurança (não são usadas para exibir anúncios personalizados pelo Google).
+                        </div>
+                </form>
+            </div>
+            <footer class="footer">
+                <h5>Dúvidas? Ligue para 000-800-919-1694 (ligação grátis)</h5>
+                <div class="footer-box">
+                    <a href="#">Perguntas frequentes</a>
+                    <a href="#">Central de Ajuda</a>
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Privacidade</a>
+                    <a href="#">Preferências de cookies</a>
+                    <a href="#">Informações corporativas</a>
+                </div>
+                <select name="" id="">
+                    <option value="">Português</option>
+                    <option value="">English</option>
+                </select>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>
