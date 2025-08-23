@@ -133,6 +133,10 @@
   <button class="botao-calculadora" id="btnCalculadora">
     Acessar Calculadora
   </button>
+
+  <button class="botao-calculadora" id="btnnetflix">
+    Acessar Netflix
+  </button>
 </main>
 
 <script>
@@ -186,6 +190,12 @@
 
   btnCalculadora.addEventListener('click', () => {
     window.location.href = 'calculadora.html';
+  });
+
+  updateTexts();
+
+  btnnetflix.addEventListener('click', () => {
+    window.location.href = 'netflix.html';
   });
 
   updateTexts();
