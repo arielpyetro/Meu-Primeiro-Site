@@ -3,236 +3,458 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Calculadora Avançada - Ariel</title>
+<title>Calculadora Avançada</title>
 <style>
-  * { box-sizing: border-box; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  
+  * { 
+    box-sizing: border-box; 
+    margin: 0;
+    padding: 0;
+  }
+  
   body {
-    background: linear-gradient(135deg, #2e0652, #3a0ca3);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #eee;
-    margin: 0; padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
   }
+
+  .particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+  
+  .particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+  }
+
+  .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px 30px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 25px;
+  }
+  
+  .nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .nav-links a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  .nav-links a:hover::before {
+    left: 100%;
+  }
+  
+  .nav-links a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  .lang-selector {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .lang-selector:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .main-content {
+    margin-top: 100px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
   h1 {
     font-weight: 900;
-    font-size: 3rem;
-    margin-bottom: 15px;
-    text-shadow: 0 0 10px #9f86c0;
-    user-select: none;
+    font-size: 3.5rem;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease-in-out infinite;
+    text-align: center;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
   }
+  
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
   .tabs {
     display: flex;
-    background: rgba(255,255,255,0.1);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
     overflow: hidden;
-    box-shadow: 0 0 12px #9f86c0aa;
     margin-bottom: 30px;
     width: 100%;
-    max-width: 480px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   }
+  
   .tab {
     flex: 1;
-    padding: 15px 0;
+    padding: 18px 0;
     text-align: center;
     cursor: pointer;
     font-weight: 600;
-    font-size: 1.25rem;
-    color: #cfccee;
-    transition: background 0.3s ease, color 0.3s ease;
-    user-select: none;
-  }
-  .tab.active {
-    background: #7b52ff;
-    color: white;
-    box-shadow: inset 0 -4px 0 #d0bfff;
-  }
-  .content {
-    background: rgba(0,0,0,0.15);
-    border-radius: 16px;
-    width: 100%;
-    max-width: 480px;
-    box-shadow: 0 0 15px #7b52ff88;
-    padding: 25px 20px 30px 20px;
-    min-height: 450px;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+  }
+  
+  .tab.active {
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    color: #ffffff;
+    transform: scale(1.02);
+  }
+  
+  .tab:not(.active):hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  .calculator-container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: 35px;
+    width: 100%;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .calculator-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+    animation: shimmer 3s linear infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+  }
+  
+  .content {
     display: none;
     flex-direction: column;
-    gap: 14px;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .content.active { display: flex; }
-  #basica input#display {
+  
+  .content.active { 
+    display: flex; 
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .content.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  #display {
     width: 100%;
-    font-size: 2.5rem;
-    padding: 12px 15px;
-    border-radius: 12px;
+    font-size: 2.8rem;
+    font-weight: 300;
+    padding: 20px 25px;
+    border-radius: 20px;
     border: none;
-    margin-bottom: 20px;
-    background: rgba(255,255,255,0.15);
-    color: #eee;
+    background: rgba(0, 0, 0, 0.3);
+    color: #ffffff;
     text-align: right;
-    box-shadow: inset 0 0 8px #a287ffaa;
-    user-select: text;
+    margin-bottom: 25px;
+    font-family: 'Inter', monospace;
+    letter-spacing: 1px;
   }
-  #basica .grid-buttons {
+  
+  #display:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .grid-buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
+    gap: 15px;
+    margin-bottom: 20px;
   }
-  #basica button {
-    padding: 16px 0;
-    font-size: 1.5rem;
+  
+  .calculator-container button {
+    padding: 20px;
+    font-size: 1.4rem;
     font-weight: 600;
-    border-radius: 14px;
+    border-radius: 18px;
     border: none;
-    color: white;
-    background: #7b52ff;
-    box-shadow: 0 5px 0 #5a38c8;
-    transition: background 0.3s, transform 0.1s;
     cursor: pointer;
-    user-select: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
   }
-  #basica button:active {
-    transform: translateY(3px);
-    box-shadow: none;
+  
+  .calculator-container button[data-val] {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  #basica button.limpar {
-    background: #f44336;
-    box-shadow: 0 5px 0 #a33027;
+  
+  .calculator-container button[data-val]:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   }
-  #basica button.equal {
-    background: #4caf50;
-    box-shadow: 0 5px 0 #397d35;
-    margin-top: 20px;
-    width: 100%;
-    border-radius: 20px;
-    font-size: 2rem;
+  
+  .limpar {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52) !important;
+    color: #ffffff !important;
   }
+  
+  .limpar:hover {
+    background: linear-gradient(135deg, #ff5252, #d32f2f) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+  }
+  
+  .backspace {
+    background: linear-gradient(135deg, #feca57, #ff9ff3) !important;
+    color: #ffffff !important;
+  }
+  
+  .backspace:hover {
+    background: linear-gradient(135deg, #ff9ff3, #a55eea) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(254, 202, 87, 0.4);
+  }
+
+  .equal {
+    background: linear-gradient(135deg, #48dbfb, #0abde3) !important;
+    color: #ffffff !important;
+    font-size: 2rem !important;
+    border-radius: 25px !important;
+    grid-column: span 4;
+    margin-top: 10px;
+  }
+  
+  .equal:hover {
+    background: linear-gradient(135deg, #0abde3, #006ba6) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(72, 219, 251, 0.4);
+  }
+  
   #avancada button {
-    padding: 14px 0;
-    border-radius: 12px;
-    border: none;
-    background: #6a44f4;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 700;
-    box-shadow: 0 4px 0 #4b30b2;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    user-select: none;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 18px;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
   }
+  
   #avancada button:hover {
-    background: #824dff;
+    background: linear-gradient(135deg, #feca57, #ff9ff3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(254, 202, 87, 0.3);
   }
+  
   #graficoContainer {
-    position: absolute;
+    position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 440px;
-    background: rgba(255,255,255,0.1);
-    padding: 12px;
-    border-radius: 14px;
-    box-shadow: 0 0 12px #824dffbb;
+    max-width: 500px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 20px;
     display: none;
+    z-index: 1000;
   }
+  
   canvas {
     width: 100% !important;
-    height: 250px !important;
+    height: 300px !important;
+    border-radius: 10px;
   }
-  .top-left-nav {
-    position: fixed;
-    top: 20px;
-    left: 30px;
-    z-index: 999;
-    display: flex;
-    gap: 20px;
-    font-family: 'Arial', sans-serif;
+  
+  .calculator-container button:active {
+    transform: scale(0.95);
   }
-  .top-left-nav a {
-    color: #bbb;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 8px 14px;
-    border-radius: 8px;
-  }
-  .top-left-nav a:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-  }
-  .lang-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 999;
+  
+  @media (max-width: 768px) {
+    .main-content {
+      margin-top: 80px;
+      padding: 0 15px;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+    }
+    
+    .calculator-container {
+      padding: 25px 20px;
+    }
+    
+    #display {
+      font-size: 2.2rem;
+      padding: 15px 20px;
+    }
+    
+    .nav-links {
+      gap: 15px;
+    }
+    
+    .nav-links a {
+      font-size: 0.85rem;
+      padding: 6px 12px;
+    }
   }
 </style>
 </head>
 <body>
 
-<h1 id="titulo">Calculadora Avançada</h1>
+<div class="particles" id="particles"></div>
 
-<div class="tabs">
-  <div class="tab active" data-tab="basica">Básica</div>
-  <div class="tab" data-tab="avancada">Avançada</div>
-</div>
-
-<nav class="top-left-nav">
-  <a href="index.html" id="menuInicio">Início</a>
-  <a href="projetos.html" id="menuProjetos">Meus Projetos</a>
-</nav>
-
-<div id="basica" class="content active">
-  <input type="text" id="display" readonly autocomplete="off" spellcheck="false" />
-  <div class="grid-buttons">
-    <button data-val="7">7</button>
-    <button data-val="8">8</button>
-    <button data-val="9">9</button>
-    <button data-val="/">÷</button>
-
-    <button data-val="4">4</button>
-    <button data-val="5">5</button>
-    <button data-val="6">6</button>
-    <button data-val="*">×</button>
-
-    <button data-val="1">1</button>
-    <button data-val="2">2</button>
-    <button data-val="3">3</button>
-    <button data-val="-">−</button>
-
-    <button class="limpar" id="clear">C</button>
-    <button data-val="0">0</button>
-    <button data-val=".">.</button>
-    <button data-val="+">+</button>
+<nav class="top-nav">
+  <div class="nav-links">
+    <a href="index.html" id="menuInicio">Início</a>
+    <a href="projetos.html" id="menuProjetos">Meus Projetos</a>
   </div>
-  <button class="equal" id="equals">=</button>
-</div>
-
-<div id="avancada" class="content">
-  <button id="equacao1GrauBtn">Equação 1º Grau</button>
-  <button id="equacao2GrauBtn">Equação 2º Grau</button>
-  <button id="sistemaLinearBtn">Sistema Linear 2x2</button>
-  <button id="exponencialLogBtn">Exponencial / Logaritmo</button>
-  <button id="regraDe3Btn">Regra de 3</button>
-  <button id="porcentagemBtn">Porcentagem</button>
-  <button id="graficoFuncao2GrauBtn">Gráfico função 2º Grau</button>
-
-  <div id="graficoContainer">
-    <canvas id="grafico"></canvas>
-  </div>
-</div>
-
-<div class="lang-container">
-  <select id="langSelector" aria-label="Selecionar idioma">
+  <select class="lang-selector" id="langSelector" aria-label="Selecionar idioma">
     <option value="pt">Português</option>
     <option value="es">Español</option>
     <option value="en">English</option>
   </select>
+</nav>
+
+<div class="main-content">
+  <h1 id="titulo">Calculadora Avançada</h1>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="basica">Básica</div>
+    <div class="tab" data-tab="avancada">Avançada</div>
+  </div>
+
+  <div class="calculator-container">
+    <div id="basica" class="content active">
+      <input type="text" id="display" readonly autocomplete="off" spellcheck="false" placeholder="0" />
+      <div class="grid-buttons">
+        <button class="limpar" id="clear">C</button>
+        <button class="backspace" id="backspace">⌫</button>
+        <button data-val="/">÷</button>
+        <button data-val="*">x</button>
+
+        <button data-val="7">7</button>
+        <button data-val="8">8</button>
+        <button data-val="9">9</button>
+        <button data-val="-">−</button>
+
+        <button data-val="4">4</button>
+        <button data-val="5">5</button>
+        <button data-val="6">6</button>
+        <button data-val="+">+</button>
+
+        <button data-val="1">1</button>
+        <button data-val="2">2</button>
+        <button data-val="3">3</button>
+        <button data-val="0" style="grid-column: span 2;">0</button>
+        <button data-val=".">.</button>
+      </div>
+      <button class="equal" id="equals">=</button>
+    </div>
+
+    <div id="avancada" class="content">
+      <button id="equacao1GrauBtn">Equação 1º Grau</button>
+      <button id="equacao2GrauBtn">Equação 2º Grau</button>
+      <button id="sistemaLinearBtn">Sistema Linear 2x2</button>
+      <button id="exponencialLogBtn">Exponencial / Logaritmo</button>
+      <button id="regraDe3Btn">Regra de 3</button>
+      <button id="porcentagemBtn">Porcentagem</button>
+      <button id="graficoFuncao2GrauBtn">Gráfico função 2º Grau</button>
+    </div>
+  </div>
+</div>
+
+<div id="graficoContainer">
+  <canvas id="grafico"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -376,6 +598,7 @@
   const clearBtn = document.getElementById('clear');
   const equalsBtn = document.getElementById('equals');
 
+  const backspaceBtn = document.getElementById('backspace');
   const equacao1GrauBtn = document.getElementById('equacao1GrauBtn');
   const equacao2GrauBtn = document.getElementById('equacao2GrauBtn');
   const sistemaLinearBtn = document.getElementById('sistemaLinearBtn');
@@ -415,17 +638,27 @@
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
+      const currentActive = document.querySelector('.content.active');
+      const targetContent = document.getElementById(tab.dataset.tab);
+      
+      if (currentActive === targetContent) return;
+      
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
 
-      if(tab.dataset.tab === 'basica'){
-        document.getElementById('basica').classList.add('active');
-        document.getElementById('avancada').classList.remove('active');
-        document.getElementById('graficoContainer').style.display = 'none';
-      } else {
-        document.getElementById('basica').classList.remove('active');
-        document.getElementById('avancada').classList.add('active');
-      }
+      // Fade out current content
+      currentActive.classList.add('fade-out');
+      
+      setTimeout(() => {
+        currentActive.classList.remove('active', 'fade-out');
+        targetContent.classList.add('active');
+        
+        if(tab.dataset.tab === 'basica'){
+          document.getElementById('graficoContainer').style.display = 'none';
+        }
+        
+        targetContent.offsetHeight;
+      }, 250);
     });
   });
 
@@ -433,12 +666,24 @@
 
   document.querySelectorAll('#basica button[data-val]').forEach(btn => {
     btn.addEventListener('click', () => {
-      display.value += btn.dataset.val;
+      if (display.value === '0' || display.value === translations[lang].inputInvalido) {
+        display.value = btn.dataset.val;
+      } else {
+        display.value += btn.dataset.val;
+      }
     });
   });
 
   clearBtn.addEventListener('click', () => {
-    display.value = '';
+    display.value = '0';
+  });
+
+  backspaceBtn.addEventListener('click', () => {
+    if (display.value.length > 1) {
+      display.value = display.value.slice(0, -1);
+    } else {
+      display.value = '0';
+    }
   });
 
   equalsBtn.addEventListener('click', () => {
@@ -608,8 +853,8 @@
           datasets: [{
             label: translations[lang].graficoFuncao2Grau,
             data: dataPoints,
-            borderColor: '#d4bfff',
-            backgroundColor: 'rgba(151, 111, 255, 0.3)',
+            borderColor: '#48dbfb',
+            backgroundColor: 'rgba(72, 219, 251, 0.2)',
             pointRadius: 0,
             borderWidth: 3,
             fill: true,
@@ -620,23 +865,26 @@
           scales: {
             x: {
               type: 'linear',
-              title: { display: true, text: 'x' },
+              title: { display: true, text: 'x', color: '#ffffff' },
               min: -20,
               max: 20,
-              ticks: { stepSize: 5 }
+              ticks: { stepSize: 5, color: '#ffffff' },
+              grid: { color: 'rgba(255, 255, 255, 0.1)' }
             },
             y: {
-              title: { display: true, text: 'y' },
+              title: { display: true, text: 'y', color: '#ffffff' },
               beginAtZero: false,
+              ticks: { color: '#ffffff' },
+              grid: { color: 'rgba(255, 255, 255, 0.1)' }
             }
           },
           animation: {
-            duration: 700,
-            easing: 'easeInOutQuad',
+            duration: 1000,
+            easing: 'easeInOutQuart',
           },
           plugins: {
             legend: {
-              labels: { color: '#d4bfff' }
+              labels: { color: '#48dbfb' }
             }
           },
           responsive: true,
@@ -651,44 +899,33 @@
     }
   });
 
+  function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 50;
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      
+      const size = Math.random() * 4 + 2;
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight;
+      const delay = Math.random() * 6;
+      
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      particle.style.animationDelay = delay + 's';
+      
+      particlesContainer.appendChild(particle);
+    }
+  }
+
+  createParticles();
+
+  display.value = '0';
+
 </script>
-<style>
-.lang-container select {
-  background: rgba(255, 255, 255, 0.1);
-  color: #eee;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 0 10px #7b52ff88;
-  transition: background 0.3s ease, color 0.3s ease;
-  user-select: none;
-  -webkit-appearance: none;  
-  -moz-appearance: none;     
-  appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="%23eee" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px 16px;
-}
-
-.lang-container select option {
-  background-color: #1a0b3d;
-  color: #eee;
-}
-
-.lang-container select option:hover {
-  background-color: #7b52ff;
-  color: white;
-}
-
-.lang-container select:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
-
-</style>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97567fc54358f616',t:'MTc1NjI0NDU0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
