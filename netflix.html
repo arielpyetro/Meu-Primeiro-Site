@@ -1,65 +1,541 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix</title>
-    <link rel="stylesheet" href="src/css/styles.css">
-
-
+    <title>Mcclaneflix</title>
     <style>
-    .descricao {
-      display: none;
-      margin-top: 8px;
-      padding: 10px;
-      background: #f0f0f0;
-      border-radius: 5px;
-      font-size: 14px;
-    }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
+        }
 
-    .Saiba-mais {
-      color: blue;
-      cursor: pointer;
-      text-decoration: underline;
-    }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 25%, #5d6d7e 50%, #85929e 75%, #aab7b8 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translateY(-30px) rotate(180deg);
+                opacity: 0.8;
+            }
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .dark-layer {
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(2px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header {
+            padding: 2rem 11%;
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            opacity: 0;
+            animation: slideDown 1s ease 0.2s forwards;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ecf0f1, #bdc3c7, #95a5a6, #7f8c8d);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: logoShimmer 3s ease-in-out infinite;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        @keyframes logoShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .container {
+            width: 480px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 50px 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: slideUp 1s ease 0.6s forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .container h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .input-box {
+            width: 100%;
+            height: 70px;
+            margin: 25px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .input-box input {
+            width: 100%;
+            height: 100%;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px 20px 10px 20px;
+            color: #ffffff;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .input-box input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .input-box label {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .input-box input:focus ~ label,
+        .input-box input:valid ~ label {
+            top: 18px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            transform: translateY(0);
+        }
+
+        .btn {
+            width: 100%;
+            height: 55px;
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #ffffff;
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #5d6d7e, #34495e);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(52, 73, 94, 0.4);
+        }
+
+        .btn2 {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn2:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.2);
+        }
+
+        p {
+            text-align: center;
+            font-size: 16px;
+            margin: 25px 0;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        .forgot a {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .forgot a:hover {
+            color: #bdc3c7;
+            text-decoration: underline;
+        }
+
+        span {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        span input[type="checkbox"] {
+            height: 18px;
+            width: 18px;
+            accent-color: #95a5a6;
+            cursor: pointer;
+        }
+
+        .accountCreate {
+            font-size: 16px;
+            text-align: left;
+            letter-spacing: 0.2px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .accountCreate a {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #bdc3c7;
+            transition: all 0.3s ease;
+        }
+
+        .accountCreate a:hover {
+            color: #ecf0f1;
+            text-decoration: underline;
+        }
+
+        .condition {
+            text-align: left;
+            font-weight: 400;
+            font-size: 13px;
+            max-width: 100%;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        .condition a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .condition a:hover {
+            color: #ecf0f1;
+            text-decoration: underline;
+        }
+
+        .Saiba-mais {
+            color: #bdc3c7 !important;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+        }
+
+        .Saiba-mais:hover {
+            color: #ecf0f1 !important;
+        }
+
+        .descricao {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            font-size: 13px;
+            line-height: 1.6;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding: 3rem 9%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            animation: slideUp 1s ease 1.2s forwards;
+        }
+
+        .footer h5 {
+            font-size: 18px;
+            text-align: left;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
+        }
+
+        .footer-box {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+            margin-bottom: 25px;
+        }
+
+        .footer-box a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 15px;
+            font-weight: 400;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+        }
+
+        .footer-box a:hover {
+            color: #bdc3c7;
+            transform: translateX(5px);
+        }
+
+        select {
+            min-height: 45px;
+            min-width: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            font-size: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        select:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        option {
+            background: rgba(0, 0, 0, 0.9);
+            color: #ffffff;
+        }
+
+        @media(max-width: 1280px) {
+            .header {
+                padding: 1.5rem 4%;
+            }
+            .footer {
+                padding: 3rem 4%;
+            }
+        }
+
+        @media(max-width: 960px) {
+            .logo {
+                font-size: 2rem;
+            }
+            .container {
+                width: 90%;
+                max-width: 450px;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 40px 30px;
+                margin: 20px 0;
+            }
+            
+            .container h2 {
+                font-size: 2rem;
+            }
+            
+            .header {
+                padding: 1rem 5%;
+            }
+            
+            .footer {
+                padding: 2rem 5%;
+            }
+            
+            .footer-box {
+                grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+                gap: 1rem;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <div class="particles" id="particles"></div>
+
     <div class="main-container">
         <div class="dark-layer">
             <header class="header">
-                <a href="index.html">
-                    <img src="src/img/logo/netflixlogo.png" alt="netflixlogo">
-                </a>
+                <a href="index.html" class="logo">Mcclaneflix</a>
             </header>
+            
             <div class="container">
                 <h2>Entrar</h2>
                 <form action="#">
                     <div class="input-box">
                         <input type="text" required>
-                        <label for="#">Email ou número de celular</label>
+                        <label>Email ou número de celular</label>
                     </div>
                     <div class="input-box">
                         <input type="password" required>
-                        <label for="#">Senha</label>
+                        <label>Senha</label>
                     </div>
-                    <button class="btn">Entrar</button>
+                    <button type="button" class="btn">Entrar</button>
                     <p>ou</p>
-                    <button class="btn btn2">Usar um código de acesso</button>
+                    <button type="button" class="btn btn2">Usar um código de acesso</button>
                     <p class="forgot"><a href="#">Esqueceu a senha?</a></p>
-                    <span><input type="checkbox" name="" id=""> Lembre-se de mim</span>
-                    <p class="accountCreate">Primeira vez aqui? <a href="#"> Assine agora.</a></p>
-                    <p class="condition">Esta página é protegida pelo Google reCAPTCHA para garantir que você não é um robô.. 
-                        <a href="#" class="Saiba-mais">Saiba mais.</a></p>
-                        <div class="descricao">
-                            As informações recolhidas pelo Google reCAPTCHA estão sujeitas à <a href="#">Política de Privacidade</a> e aos <a href="">Termos de Uso</a> do Google e são usadas para oferecer, manter e melhorar o serviço reCAPTCHA e por questões de segurança (não são usadas para exibir anúncios personalizados pelo Google).
-                        </div>
+                    <span>
+                        <input type="checkbox" name="" id=""> 
+                        <label>Lembre-se de mim</label>
+                    </span>
+                    <p class="accountCreate">Primeira vez aqui? <a href="#">Assine agora.</a></p>
+                    <p class="condition">
+                        Esta página é protegida pelo Google reCAPTCHA para garantir que você não é um robô. 
+                        <a href="#" class="Saiba-mais">Saiba mais.</a>
+                    </p>
+                    <div class="descricao">
+                        As informações recolhidas pelo Google reCAPTCHA estão sujeitas à <a href="#">Política de Privacidade</a> e aos <a href="#">Termos de Uso</a> do Google e são usadas para oferecer, manter e melhorar o serviço reCAPTCHA e por questões de segurança (não são usadas para exibir anúncios personalizados pelo Google).
+                    </div>
                 </form>
             </div>
+            
             <footer class="footer">
-                <h5>Dúvidas? Ligue para 000-800-919-1694 (ligação grátis)</h5>
+                <h5>Dúvidas? Entre em contato conosco</h5>
                 <div class="footer-box">
                     <a href="#">Perguntas frequentes</a>
                     <a href="#">Central de Ajuda</a>
@@ -75,8 +551,47 @@
             </footer>
         </div>
     </div>
-</body>
 
+    <script>
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 60;
 
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 6 + 2;
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                const delay = Math.random() * 8;
+                
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.animationDelay = delay + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        document.querySelector('.Saiba-mais').addEventListener('click', function(e) {
+            e.preventDefault();
+            const descricao = document.querySelector('.descricao');
+            if (descricao.style.display === 'none' || descricao.style.display === '') {
+                descricao.style.display = 'block';
+            } else {
+                descricao.style.display = 'none';
+            }
+        });
+
+        window.addEventListener('load', createParticles);
+
+        window.addEventListener('resize', function() {
+            document.getElementById('particles').innerHTML = '';
+            createParticles();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97568ef4e458f61b',t:'MTc1NjI0NTE2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
