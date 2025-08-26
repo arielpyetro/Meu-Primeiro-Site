@@ -137,6 +137,10 @@
   <button class="botao-calculadora" id="btnnetflix">
     Acessar Netflix
   </button>
+
+  <button class="botao-calculadora" id="btnCoversor">
+    Acessar Conversor
+  </button>
 </main>
 
 <script>
@@ -146,6 +150,7 @@
   const titulo = document.getElementById('titulo');
   const descricao = document.getElementById('descricao');
   const btnCalculadora = document.getElementById('btnCalculadora');
+  const btnnetflix = document.getElementById('btnnetflix');
 
   const translations = {
     pt: {
@@ -153,21 +158,27 @@
       menuProjetos: "Meus Projetos",
       titulo: "Meus Projetos",
       descricao: "Aqui você encontra meus projetos todos feitos por diversão e aprendizagem.",
-      btnCalculadora: "Acessar Calculadora"
+      btnCalculadora: "Acessar Calculadora",
+      btnnetflix: "Acessar netflix",
+      btnconveror: "Acessar Conversor"
     },
     es: {
       menuInicio: "Inicio",
       menuProjetos: "Mis Proyectos",
       titulo: "Mis Proyectos",
       descricao: "Aquí encuentras todos mis proyectos hechos por diversión y aprendizaje.",
-      btnCalculadora: "Acceder a Calculadora"
+      btnCalculadora: "Acceder a Calculadora",
+      btnnetflix: "acceder a Netflix",
+      btnconveror: "acceder a Conversor"
     },
     en: {
       menuInicio: "Home",
       menuProjetos: "My Projects",
       titulo: "My Projects",
       descricao: "Here you can find all my projects made for fun and learning.",
-      btnCalculadora: "Access Calculator"
+      btnCalculadora: "Access Calculator",
+      btnnetflix: "acess Netflix",
+      btnconveror: "acess convertor"
     }
   };
 
@@ -180,6 +191,8 @@
     titulo.innerText = translations[lang].titulo;
     descricao.innerText = translations[lang].descricao;
     btnCalculadora.innerText = translations[lang].btnCalculadora;
+    btnnetflix.innerText = translations[lang].btnnetflix;
+    btnconveror.innerText = translations[lang].btnconveror;
   }
 
   langSelector.addEventListener('change', (e) => {
@@ -196,6 +209,12 @@
 
   btnnetflix.addEventListener('click', () => {
     window.location.href = 'netflix.html';
+  });
+
+  updateTexts();
+
+  btnconveror.addEventListener('click', () =>{
+    window.location.href = "conversor.html" ;
   });
 
   updateTexts();
