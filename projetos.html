@@ -4,143 +4,278 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Projetos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
       margin: 0;
       padding: 0;
-      background: linear-gradient(to bottom, #1e0033, #0a001a);
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0728 0%, #1a0b3d 50%, #2d1b69 100%);
+      color: #ffffff;
+      overflow-x: hidden;
+      position: relative;
       min-height: 100vh;
     }
-
+    
+    /* Header igual à referência */
     header {
+      position: fixed;
+      top: 0;
       width: 100%;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      position: relative;
+      background: rgba(15, 7, 40, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 255, 195, 0.1);
+      padding: 20px 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
     }
 
-    nav {
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #00ffc3;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    nav ul {
+      list-style: none;
       display: flex;
       gap: 40px;
+      align-items: center;
     }
 
     nav a {
-      color: #ccc;
+      color: #e2e8f0;
       text-decoration: none;
-      font-size: 1.2rem;
-      transition: color 0.3s;
+      font-weight: 500;
+      font-size: 1rem;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: 8px 0;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #00ffc3, #00c39a);
+      transition: width 0.3s ease;
     }
 
     nav a:hover {
-      color: #fff;
+      color: #00ffc3;
     }
 
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    h1 {
-      font-size: 4rem;
-      margin-bottom: 20px;
-    }
-
-    p {
-      font-size: 1.2rem;
-      color: #bbb;
-      max-width: 600px;
-    }
-
-    .botao-calculadora {
-      margin-top: 40px;
-      background: #6a0dad;
-      border: none;
-      color: white;
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .botao-calculadora:hover {
-      background: #8533ff;
+    nav a:hover::after {
+      width: 100%;
     }
 
     .lang-container {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 999;
+      display: flex;
+      align-items: center;
     }
 
-    .lang-container select {
-      background: #7b52ff;
-      color: white;
-      border: none;
+    #langSelector {
+      background: rgba(0, 255, 195, 0.1);
+      color: #00ffc3;
+      border: 1px solid rgba(0, 255, 195, 0.3);
       border-radius: 12px;
-      padding: 8px 16px;
-      font-weight: 700;
-      font-size: 1rem;
+      padding: 10px 16px;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(123, 82, 255, 0.6);
-      transition: background 0.3s ease;
-      user-select: none;
-    }
-
-    .lang-container select:hover {
-      background: #824dff;
-    }
-
-    .lang-container select:focus {
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
       outline: none;
-      box-shadow: 0 0 10px 2px #bb86fc;
+      backdrop-filter: blur(10px);
+    }
+
+    #langSelector:hover,
+    #langSelector:focus {
+      background: rgba(0, 255, 195, 0.2);
+      border-color: #00ffc3;
+      transform: translateY(-1px);
+    }
+    
+    .project-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 255, 195, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0, 255, 195, 0.3);
+      background: linear-gradient(145deg, rgba(0, 255, 195, 0.15), rgba(0, 255, 195, 0.08));
+      border-color: rgba(0, 255, 195, 0.4);
+    }
+    
+    .floating-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .glow-effect {
+      box-shadow: 0 0 30px rgba(0, 255, 195, 0.4);
+    }
+    
+    .btn-gradient-cyan {
+      background: linear-gradient(135deg, #00ffc3 0%, #00c39a 100%);
+      color: #0f0728;
+    }
+    
+    .btn-gradient-cyan:hover {
+      box-shadow: 0 12px 40px rgba(0, 255, 195, 0.4);
+    }
+    
+    .btn-gradient-pink {
+      background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+      color: #ffffff;
+    }
+    
+    .btn-gradient-pink:hover {
+      box-shadow: 0 12px 40px rgba(255, 107, 157, 0.4);
+    }
+    
+    .btn-gradient-green {
+      background: linear-gradient(135deg, #00d4aa 0%, #00a085 100%);
+      color: #ffffff;
+    }
+    
+    .btn-gradient-green:hover {
+      box-shadow: 0 12px 40px rgba(0, 212, 170, 0.4);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 0 20px;
+      }
+
+      nav ul {
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav ul {
+        gap: 15px;
+      }
+
+      .lang-container {
+        align-self: flex-end;
+      }
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen text-white">
 
 <header>
-  <nav>
-    <a href="index.html" id="menuInicio">Início</a>
-    <a href="projetos.html" id="menuProjetos">Meus Projetos</a>
-  </nav>
+  <div class="header-content">
+    <a href="#" class="logo">Ariel</a>
+    <nav>
+      <ul>
+        <li><a href="index.html" id="menuInicio">Início</a></li>
+        <li><a href="projetos.html" id="menuProjetos">Meus Projetos</a></li>
+      </ul>
+    </nav>
 
-  <div class="lang-container">
-    <select id="langSelector" aria-label="Selecionar idioma">
-      <option value="pt">Português</option>
-      <option value="es">Español</option>
-      <option value="en">English</option>
-    </select>
+    <div class="lang-container">
+      <select id="langSelector" aria-label="Selecionar idioma">
+        <option value="pt" class="bg-gray-800">Português</option>
+        <option value="es" class="bg-gray-800">Español</option>
+        <option value="en" class="bg-gray-800">English</option>
+      </select>
+    </div>
   </div>
 </header>
 
-<main>
-  <h1 id="titulo">Meus Projetos</h1>
-  <p id="descricao">Aqui você encontra meus projetos todos feitos por diversão e aprendizagem.</p>
-  <button class="botao-calculadora" id="btnCalculadora">
-    Acessar Calculadora
-  </button>
+<main class="flex-1 flex flex-col justify-center items-center text-center px-6 py-20" style="padding-top: 120px;">
+  <div class="floating-animation mb-12">
+    <h1 id="titulo" class="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+      Meus Projetos
+    </h1>
+    <p id="descricao" class="text-xl text-slate-300 max-w-2xl leading-relaxed font-light">
+      Aqui você encontra meus projetos todos feitos por diversão e aprendizagem.
+    </p>
+  </div>
 
-  <button class="botao-calculadora" id="btnnetflix">
-    Acessar Netflix
-  </button>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl w-full">
+    
+    <div class="project-card rounded-2xl p-8 group cursor-pointer">
+      <div class="mb-6">
+        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl flex items-center justify-center mb-4 glow-effect">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-semibold mb-3 text-slate-100">Calculadora</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">Uma calculadora moderna e funcional com interface elegante.</p>
+      </div>
+      <button id="btnCalculadora" class="w-full btn-gradient-cyan font-medium py-3 px-6 rounded-xl transition-all duration-300 transform group-hover:scale-105">
+        Acessar Calculadora
+      </button>
+    </div>
 
-  <button class="botao-calculadora" id="btnCoversor">
-    Acessar Conversor
-  </button>
+    <div class="project-card rounded-2xl p-8 group cursor-pointer">
+      <div class="mb-6">
+        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-pink-400 to-red-500 rounded-2xl flex items-center justify-center mb-4" style="box-shadow: 0 0 30px rgba(255, 107, 157, 0.4);">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-semibold mb-3 text-slate-100">Netflix Clone</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">Interface inspirada na Netflix com design responsivo e moderno.</p>
+      </div>
+      <button id="btnnetflix" class="w-full btn-gradient-pink font-medium py-3 px-6 rounded-xl transition-all duration-300 transform group-hover:scale-105">
+        Acessar Netflix
+      </button>
+    </div>
+
+    <div class="project-card rounded-2xl p-8 group cursor-pointer">
+      <div class="mb-6">
+        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center mb-4" style="box-shadow: 0 0 30px rgba(0, 212, 170, 0.4);">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-semibold mb-3 text-slate-100">Conversor</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">Ferramenta de conversão com múltiplas funcionalidades integradas.</p>
+      </div>
+      <button id="btnconveror" class="w-full btn-gradient-green font-medium py-3 px-6 rounded-xl transition-all duration-300 transform group-hover:scale-105">
+        Acessar Conversor
+      </button>
+    </div>
+
+  </div>
 </main>
 
 <script>
@@ -151,6 +286,7 @@
   const descricao = document.getElementById('descricao');
   const btnCalculadora = document.getElementById('btnCalculadora');
   const btnnetflix = document.getElementById('btnnetflix');
+  const btnconveror = document.getElementById('btnconveror');
 
   const translations = {
     pt: {
@@ -159,7 +295,7 @@
       titulo: "Meus Projetos",
       descricao: "Aqui você encontra meus projetos todos feitos por diversão e aprendizagem.",
       btnCalculadora: "Acessar Calculadora",
-      btnnetflix: "Acessar netflix",
+      btnnetflix: "Acessar Netflix",
       btnconveror: "Acessar Conversor"
     },
     es: {
@@ -168,8 +304,8 @@
       titulo: "Mis Proyectos",
       descricao: "Aquí encuentras todos mis proyectos hechos por diversión y aprendizaje.",
       btnCalculadora: "Acceder a Calculadora",
-      btnnetflix: "acceder a Netflix",
-      btnconveror: "acceder a Conversor"
+      btnnetflix: "Acceder a Netflix",
+      btnconveror: "Acceder a Conversor"
     },
     en: {
       menuInicio: "Home",
@@ -177,8 +313,8 @@
       titulo: "My Projects",
       descricao: "Here you can find all my projects made for fun and learning.",
       btnCalculadora: "Access Calculator",
-      btnnetflix: "acess Netflix",
-      btnconveror: "acess convertor"
+      btnnetflix: "Access Netflix",
+      btnconveror: "Access Converter"
     }
   };
 
@@ -205,20 +341,16 @@
     window.location.href = 'calculadora.html';
   });
 
-  updateTexts();
-
   btnnetflix.addEventListener('click', () => {
     window.location.href = 'netflix.html';
   });
 
-  updateTexts();
-
-  btnconveror.addEventListener('click', () =>{
-    window.location.href = "conversor.html" ;
+  btnconveror.addEventListener('click', () => {
+    window.location.href = "conversor.html";
   });
 
   updateTexts();
 </script>
 
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975653eda219f616',t:'MTc1NjI0Mjc1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
