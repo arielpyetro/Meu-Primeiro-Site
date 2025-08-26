@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ariel</title>
-  <link rel="stylesheet" href="./src/css/style.css" />
+  <title>Ariel - Desenvolvedor</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #1a0b3d;
-      color: #fff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0728 0%, #1a0b3d 50%, #2d1b69 100%);
+      color: #ffffff;
       overflow-x: hidden;
       position: relative;
+      min-height: 100vh;
     }
+
     #starfield {
       position: fixed;
       top: 0;
@@ -27,125 +28,309 @@
       height: 100%;
       z-index: -1;
       background: transparent;
-      display: block;
     }
+
     header {
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(26, 11, 61, 0.85);
-      padding: 15px 30px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-      z-index: 10;
+      background: rgba(15, 7, 40, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 255, 195, 0.1);
+      padding: 20px 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
     }
-    header nav {
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #00ffc3;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
     nav ul {
       list-style: none;
       display: flex;
-      gap: 30px;
+      gap: 40px;
+      align-items: center;
     }
+
     nav a {
-      color: #eefffb;
+      color: #e2e8f0;
       text-decoration: none;
-      font-weight: 700;
-      font-size: 1.1rem;
-      transition: color 0.3s;
+      font-weight: 500;
+      font-size: 1rem;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: 8px 0;
     }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #00ffc3, #00c39a);
+      transition: width 0.3s ease;
+    }
+
     nav a:hover {
-      color: #535353;
+      color: #00ffc3;
     }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
     .lang-container {
       display: flex;
       align-items: center;
     }
+
     #langSelector {
-      background-color: transparent;
+      background: rgba(0, 255, 195, 0.1);
       color: #00ffc3;
-      border: 2px solid #00ffc3;
-      border-radius: 8px;
-      padding: 6px 14px;
-      font-weight: 700;
+      border: 1px solid rgba(0, 255, 195, 0.3);
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
       outline: none;
+      backdrop-filter: blur(10px);
     }
+
     #langSelector:hover,
     #langSelector:focus {
-      background-color: #00ffc3;
-      color: #1a0b3d;
-      border-color: #00c39a;
+      background: rgba(0, 255, 195, 0.2);
+      border-color: #00ffc3;
+      transform: translateY(-1px);
     }
+
     main {
-      padding-top: 80px;
-      max-width: 900px;
-      margin: 0 auto;
+      padding-top: 100px;
       position: relative;
       z-index: 5;
     }
+
     .intro.centered {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: calc(100vh - 80px);
-      padding: 20px;
+      min-height: calc(100vh - 100px);
+      padding: 40px 20px;
       text-align: center;
-      user-select: none;
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
     }
-    .intro.centered h1 {
-      font-size: 4rem;
+
+    #typing {
+      font-size: clamp(3rem, 8vw, 5.5rem);
       font-weight: 900;
-      font-family: 'Courier New', Courier, monospace;
-      margin-bottom: 20px;
-      color: #00ffc3;
-      border-right: 2px solid #00ffc3;
-      padding-right: 5px;
-      animation: blinkCursor 0.7s steps(1) infinite;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      margin-bottom: 30px;
+      background: linear-gradient(270deg, #ffffff, #00ffc3, #cbd5e1, #ffffff);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      position: relative;
+      opacity: 0;
+      border-right: 3px solid #00ffc3;
+      padding-right: 8px;
+      animation: fadeInUp 1s ease 0.4s forwards, blinkCursor 1s steps(1) infinite, gradientShift 3s ease-in-out infinite;
     }
+
     @keyframes blinkCursor {
       50% { border-color: transparent; }
     }
-    .intro.centered p {
-      font-size: 1.3rem;
-      opacity: 0.8;
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    .social-icons {
-      margin-top: 30px;
+
+    #subtitle {
+      font-size: 1.4rem;
+      color: #cbd5e1;
+      margin-bottom: 40px;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeInUp 1s ease 0.8s forwards;
+      max-width: 600px;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .action-buttons {
       display: flex;
-      gap: 30px;
+      gap: 20px;
       justify-content: center;
-      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      opacity: 0;
+      animation: fadeInUp 1s ease 1.2s forwards;
     }
-    .social-icons .icon {
-      color: #bbbbbb;
-      font-size: 2.5rem;
-      transition: color 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-    }
-    .social-icons .icon svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      fill: currentColor;
-    }
-    .social-icons .icon:hover {
-      color: #6e6e6e;
+
+    .btn {
+      padding: 16px 32px;
+      border-radius: 16px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      border: none;
       cursor: pointer;
     }
-    @media (max-width: 480px) {
-      header nav {
-        flex-direction: column;
-        gap: 10px;
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00ffc3 0%, #00c39a 100%);
+      color: #0f0728;
+      box-shadow: 0 8px 32px rgba(0, 255, 195, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 255, 195, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .social-section {
+      margin-top: 60px;
+      opacity: 0;
+      animation: fadeInUp 1s ease 1.4s forwards;
+    }
+
+    .social-label {
+      font-size: 1rem;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .social-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .social-icon:hover {
+      background: rgba(0, 255, 195, 0.1);
+      border-color: rgba(0, 255, 195, 0.3);
+      color: #00ffc3;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 255, 195, 0.3);
+    }
+
+    .social-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 0 20px;
       }
+
+      nav ul {
+        gap: 20px;
+      }
+
+      .intro.centered {
+        padding: 20px;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .social-icons {
+        gap: 16px;
+      }
+
+      .social-icon {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav ul {
+        gap: 15px;
+      }
+
+      #subtitle {
+        font-size: 1.2rem;
+      }
+
       .lang-container {
         align-self: flex-end;
       }
@@ -156,11 +341,14 @@
   <canvas id="starfield"></canvas>
 
   <header>
-    <nav>
-      <ul>
-        <li><a href="#inicio" id="menuInicio">Início</a></li>
-        <li><a href="projetos.html" id="menuProjetos">Meus Projetos</a></li>
-      </ul>
+    <div class="header-content">
+      <a href="#" class="logo">Ariel</a>
+      <nav>
+        <ul>
+          <li><a href="#inicio" id="menuInicio">Início</a></li>
+          <li><a href="projetos.html" id="menuProjetos">Meus Projetos</a></li>
+        </ul>
+      </nav>
       <div class="lang-container">
         <select id="langSelector" aria-label="Selecionar idioma">
           <option value="pt">Português</option>
@@ -168,13 +356,40 @@
           <option value="en">English</option>
         </select>
       </div>
-    </nav>
+    </div>
   </header>
 
   <main>
     <section id="inicio" class="intro centered">
       <h1 id="typing"></h1>
       <p id="subtitle"></p>
+      
+      <div class="action-buttons">
+        <a href="projetos.html" class="btn btn-primary">Ver Projetos</a>
+        <a href="#contato" class="btn btn-secondary">Entre em Contato</a>
+      </div>
+
+      <div class="social-section">
+        <p class="social-label">Conecte-se comigo</p>
+        <div class="social-icons">
+          <a href="#" class="social-icon" aria-label="GitHub">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+          </a>
+
+          <a href="#" class="social-icon" aria-label="Twitter">
+            <svg viewBox="0 0 24 24">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+            </svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="Email">
+            <svg viewBox="0 0 24 24">
+              <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-.904.732-1.636 1.636-1.636h.91L12 10.09l9.455-6.269h.909c.904 0 1.636.732 1.636 1.636z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -184,9 +399,24 @@
     const langSelector = document.getElementById('langSelector');
 
     const translations = {
-      pt: { typing: "<Olá Mundo/>", subtitle: "Não sou programador, faço tudo por hobby.", menuInicio: "Início", menuProjetos: "Meus Projetos" },
-      es: { typing: "<Hola Mundo/>", subtitle: "No soy programador, hago todo por hobby.", menuInicio: "Inicio", menuProjetos: "Mis Proyectos" },
-      en: { typing: "<Hello World/>", subtitle: "I'm not a programmer, I do everything as a hobby.", menuInicio: "Home", menuProjetos: "My Projects" }
+      pt: { 
+        typing: "<Olá Mundo/>", 
+        subtitle: "Não sou programador, faço tudo por hobby.", 
+        menuInicio: "Início", 
+        menuProjetos: "Meus Projetos" 
+      },
+      es: { 
+        typing: "<Hola Mundo/>", 
+        subtitle: "No soy programador, hago todo por hobby.", 
+        menuInicio: "Inicio", 
+        menuProjetos: "Mis Proyectos" 
+      },
+      en: { 
+        typing: "<Hello World/>", 
+        subtitle: "I'm not a programmer, I do everything as a hobby.", 
+        menuInicio: "Home", 
+        menuProjetos: "My Projects" 
+      }
     };
 
     let lang = localStorage.getItem('lang') || 'pt';
@@ -201,6 +431,7 @@
       const text = translations[lang].typing;
       let index = 0;
       typingElement.innerHTML = '';
+      
       function type() {
         if (index < text.length) {
           typingElement.innerHTML += text.charAt(index);
@@ -223,11 +454,10 @@
       updateTexts();
     });
 
-    updateTexts();
-
     const canvas = document.getElementById('starfield');
     const ctx = canvas.getContext('2d');
     let stars = [];
+
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -235,27 +465,53 @@
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         radius: Math.random() * 1.5,
-        speed: Math.random() * 0.5 + 0.2
+        speed: Math.random() * 0.5 + 0.2,
+        opacity: Math.random() * 0.8 + 0.2,
+        twinkleSpeed: Math.random() * 0.02 + 0.01
       }));
     }
+
     function drawStars() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#fff';
+      
       stars.forEach(star => {
+        star.opacity += star.twinkleSpeed;
+        if (star.opacity > 1 || star.opacity < 0.2) {
+          star.twinkleSpeed = -star.twinkleSpeed;
+        }
+        
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
         ctx.fill();
+        
         star.y += star.speed;
         if (star.y > canvas.height) {
           star.y = 0;
           star.x = Math.random() * canvas.width;
         }
       });
+      
       requestAnimationFrame(drawStars);
     }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
     drawStars();
+    updateTexts();
   </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9756491de2c2f616',t:'MTc1NjI0MjMwOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
